@@ -1,88 +1,99 @@
-# Python Portfolios
+# Data Analysis Portfolio
 
-Collection of data analysis and engineering projects.
+This portfolio shows how I use data to answer business questions, improve data
+quality, and create information that people can trust. Each project starts
+with a real-world style dataset and ends with a clear result that could help a
+team make better decisions.
 
-## Load Customer Data from Amazon S3
+## What This Portfolio Shows
 
-`Load data from S3 bucket.py` downloads a customer CSV from Amazon S3 and
-loads it into a pandas DataFrame named `customer_df` when the script runs.
+- Careful data cleaning and organization.
+- Clear answers to business questions.
+- Charts and summaries that are easy to understand.
+- Repeatable processes instead of one-time manual work.
+- Experience working with files, cloud storage, and databases.
 
-### What the loader does
+## Projects
 
-1. Reads the S3 object URI from `.env`.
-2. Parses the URI into an S3 bucket and object key.
-3. Uses `boto3` to download the object through the standard AWS credential
-	 chain.
-4. Parses the semicolon-delimited CSV using `latin1` encoding.
-5. Prints the number of records and the first five rows as a verification.
+### 1. Online Sales Analysis
 
-### Requirements
+File: [Exploratory Data Analysis EDA.ipynb](Exploratory%20Data%20Analysis%20EDA.ipynb)
 
-Install the Python dependencies in the project virtual environment:
+I reviewed online sales data to understand what was happening in the business.
+The analysis looks at:
 
-```bash
-.venv/bin/pip install boto3 pandas python-dotenv
-```
+- Total revenue, number of orders, and average order value.
+- The product categories that sell the most.
+- The regions with the strongest results.
+- Changes in revenue and orders over time.
+- How discount levels relate to sales and order value.
+- The relationship between delivery time, customer ratings, and sales.
 
-The loader expects Python 3.10 or newer because it uses modern type hints.
+Before analyzing the data, I removed an incomplete date record and checked the
+data structure. I then created summaries and charts so a manager could quickly
+see strong areas and possible opportunities to improve customer experience.
 
-### Configuration
+**What this demonstrates:** business thinking, data cleaning, performance
+measurement, chart creation, and communicating findings clearly.
 
-Create a local `.env` file with the S3 object location:
+### 2. Customer and Sales Data Pipeline
 
-```dotenv
-AWS_S3_STORAGE_CONNECTION="s3://your-bucket/path/to/Customers.csv"
-AWS_DEFAULT_REGION="ap-southeast-2"
-```
+File: [ETL.ipynb](ETL.ipynb)
 
-Do not commit `.env` or put access keys in it. Configure AWS credentials
-locally instead:
+This project brings together customer, product, and sales files from two
+different business systems. The data uses different names and formats, so I
+organized it into one consistent set of tables.
 
-```bash
-aws configure
-```
+The project:
 
-The IAM identity needs `s3:GetObject` permission for the specific CSV object.
+1. Collects the original files.
+2. Cleans names, dates, customer details, products, and sales values.
+3. Checks for problems such as invalid dates, missing identifiers, and unusual
+   prices or quantities.
+4. Saves the trustworthy results in a database for future reporting.
 
-Example least-privilege policy:
+The final information is arranged so that customer details, product details,
+locations, categories, and sales can be reviewed separately or combined for
+reporting.
 
-```json
-{
-	"Version": "2012-10-17",
-	"Statement": [
-		{
-			"Effect": "Allow",
-			"Action": "s3:GetObject",
-			"Resource": "arn:aws:s3:::your-bucket/path/to/Customers.csv"
-		}
-	]
-}
-```
+**What this demonstrates:** attention to detail, reliable data preparation,
+quality checking, and building a process that can be repeated.
 
-### Run the loader
+### 3. Passenger Data Organization
 
-```bash
-.venv/bin/python "Load data from S3 bucket.py"
-```
+File: [Data Modeling.ipynb](Data%20Modeling.ipynb)
 
-Expected output includes a record count and a preview similar to:
+I cleaned a passenger dataset and organized it into simple connected tables.
+One table stores passenger details, another stores embarkation locations, and
+another stores voyage information such as survival, ticket, fare, and cabin.
 
-```text
-Loaded 793 customer records.
-	Customer ID  Customer Name
-0    AA-10315     Alex Avila
-```
+This makes the information easier to search, update, and use for questions such
+as which passenger groups or travel details are linked to different outcomes.
+I also checked that the cleaned data was successfully written to the database.
 
-### Use the loader from another Python file
+**What this demonstrates:** structured thinking, data organization, database
+work, and careful checking of results.
 
-Import the function and assign the returned DataFrame:
+### 4. Customer Data from Cloud Storage
 
-```python
-from importlib.machinery import SourceFileLoader
+File: [Load data from S3 bucket.py](Load%20data%20from%20S3%20bucket.py)
 
-loader = SourceFileLoader("s3_loader", "Load data from S3 bucket.py").load_module()
-customer_df = loader.load_customer_data()
-```
+This small project retrieves a customer file from secure cloud storage, reads
+it into a table, and shows a record count and sample rows as a quick check.
+The file location and access settings are kept outside the code so private
+details are not exposed in the project.
 
-Importing the module does not download data automatically; the download only
-runs when the script is executed directly.
+**What this demonstrates:** working with customer data, connecting to a cloud
+file source, following basic data security practices, and checking that data
+was loaded correctly.
+
+## Tools Used
+
+Python, pandas, Jupyter notebooks, charts, MySQL, and cloud file storage.
+
+## How to Review the Work
+
+Start with the online sales analysis for the clearest business story. Then
+review the customer and sales pipeline to see how I prepare reliable data. The
+passenger project shows how I organize data, and the cloud storage project
+shows how I bring an external customer file into the analysis process.
