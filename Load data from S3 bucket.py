@@ -15,7 +15,6 @@ from dotenv import load_dotenv
 CSV_ENCODING = "latin1"
 CSV_SEPARATOR = ";"
 
-
 def _parse_s3_uri(s3_uri: str) -> tuple[str, str]:
 	"""Return the bucket and object key from an S3 URI."""
 	parsed_uri = urlparse(s3_uri)
@@ -90,7 +89,6 @@ def main() -> None:
 	dataframe = load_s3_csv(s3_uri)
 	print(f"Loaded {len(dataframe):,} records from {s3_uri}.")
 	print(dataframe.head())
-
 
 if __name__ == "__main__":
 	main()
